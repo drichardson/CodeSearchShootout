@@ -34,31 +34,19 @@ function Item() {
         "Command" = $Command;
         "Seconds" = $Measure.TotalSeconds;
         "Grep Ratio" = (($Measure).TotalSeconds)/(($GrepMeasure).TotalSeconds);
-        "Lines" = $Lines.Count;
+        "Lines Found" = $Lines.Count;
         }
 }
 
 function Run-Test() {
     param([string] $Pattern,[string] $Directory)
 
-    Write-Output "Running Test..."
+    Write-Information "Running Test..."
 
-    $gR   =Measure-Command { $linesG  =grep.exe -rnHF          $Pattern $Directory }
-    $rgR  =Measure-Command { $linesRg =rg.exe -F --vimgrep     $Pattern $Directory }
-    $siftR=Measure-Command { $linesS  =sift.exe --no-conf -n   $Pattern $Directory }
-    $findR=Measure-Command { $linesFs =findstr.exe /P /S /N /L $Pattern "$Directory\*" }
-
-    Write-Output "Lines Found: grep=$($linesG.Count) rg=$($linesRg.Count) sift=$($linesS.Count) findstr=$($linesFs.Count)"
-
-    if (($linesG.Count -ne $linesRg.Count)
-       || 
-        ($linesG.Count -ne $linesR.Count)
-       || 
-        ($linesG.Count -ne $linesFs.Count)) {
-        #Write-Error "Line counts do not match. Invalid test."
-    }
-
-    Write-Output "**** Test Results *****"
+    $gR   =Measure-Command { $linesG  =grep.exe -rnHF          						 $Pattern $Directory }
+    $rgR  =Measure-Command { $linesRg =rg.exe -F --vimgrep     						 $Pattern $Directory }
+    $siftR=Measure-Command { $linesS  =sift.exe --no-conf -n --err-skip-line-length  $Pattern $Directory }
+    $findR=Measure-Command { $linesFs =findstr.exe /P /S /N /L 						 $Pattern "$Directory\*" }
 
     (
     (Item "grep"    $gR    $gR $linesG),
@@ -71,7 +59,7 @@ function Run-Test() {
 }
 
 
-Write-Output "Getting testdata from submodules..."
+Write-Information "Getting testdata from submodules..."
 git submodule update --init
 
 Run-Test println .\test_projects
