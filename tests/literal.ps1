@@ -65,7 +65,9 @@ function Run-Test() {
     (Item "sift"    $siftR $gR $linesRg),
     (Item "rg"      $rgR   $gR $linesS),
     (Item "findstr" $findR $gR $linesFs)
-    ) | Sort-Object -Property Ratio | Format-Table
+    ) |
+	Sort-Object { $_.Seconds } |
+	Format-Table -AutoSize
 }
 
 
