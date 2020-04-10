@@ -12,11 +12,11 @@ Compare various grep-like tools for performance recursivley scanning directories
 ```
 .\test\literal.ps1
 
-Command   Seconds        Grep Ratio Found
--------   -------        ---------- -----
-sift    0.2243681 0.131371032304479  3673
-rg      0.2839063 0.166231579751066  3691
-findstr 1.0624899 0.622104456810405  3673
-grep    1.7078963                 1  3673
-ag      4.3285263    2.534419859098  3690
-```
+Command    Seconds        Grep Ratio Found
+-------    -------        ---------- -----
+sift     0.6793062 0.117165620984973  5815
+rg        0.864108 0.149039932828647  5840
+findstr  4.3610258 0.752182588630119  5811
+grep     5.7978287                 1  5815
+ag      13.7247422  2.36722105984263  5841
+

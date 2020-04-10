@@ -22,10 +22,10 @@ function Run-Test() {
 
     Write-Information "Running Test..."
 
-    $rAg=Measure-Command { $lAg=ag      -F --vimgrep $Pattern $Directory }
-    $rFs=Measure-Command { $lFs=findstr /P /S /N /L  $Pattern "$Directory\*" }
-    $rG =Measure-Command { $lG =grep    -rnHF        $Pattern $Directory }
-    $rRg=Measure-Command { $lRg=rg      -F --vimgrep $Pattern $Directory }
+    $rAg=Measure-Command { $lAg=ag      -sF --vimgrep $Pattern $Directory }
+    $rFs=Measure-Command { $lFs=findstr /P /S /N /L   $Pattern "$Directory\*" }
+    $rG =Measure-Command { $lG =grep    -rnHF         $Pattern $Directory }
+    $rRg=Measure-Command { $lRg=rg      -F --vimgrep  $Pattern $Directory }
     $rS =Measure-Command { $lS =sift    --no-conf -n --err-skip-line-length  $Pattern $Directory }
 
     (
