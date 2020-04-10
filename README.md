@@ -1,6 +1,11 @@
 # Code Search Tool Shootout
 Compare various grep-like tools for performance recursivley scanning directories of source code.
 
+- [GNU grep](https://www.gnu.org/software/grep/)
+- [findstr](https://ss64.com/nt/findstr.html)
+- [ripgrep](https://github.com/BurntSushi/ripgrep)
+- [sift](https://github.com/svent/sift)
+
 ## Literal (Fixed String) Results
 
 ```
