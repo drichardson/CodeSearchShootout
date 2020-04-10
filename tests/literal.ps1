@@ -72,7 +72,7 @@ function Run-Test() {
 
 
 Write-Output "Getting testdata from submodules..."
-git submodule update --init --recursive
+git submodule update --init
 
-Run-Test printk_ratelimit .\test_projects\linux
+Run-Test println .\test_projects
 

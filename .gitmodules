@@ -1,0 +1,3 @@
+[submodule "test_projects/rust"]
+	path = test_projects/rust
+	url = git@github.com:rust-lang/rust.git
