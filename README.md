@@ -1,5 +1,5 @@
-# grep Shootout
-Compare various grep like tools for performance.
+# Code Search Tool Shootout
+Compare various grep-like tools for performance recursivley scanning directories of source code.
 
 ## Literal (Fixed String) Results
 
