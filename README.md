@@ -10,13 +10,14 @@ Compare various grep-like tools for performance recursivley scanning directories
 ## Literal (Fixed String) Results
 
 ```
-.\test\literal.ps1
+.\tests\literal.ps1
+
 
 Command    Seconds        Grep Ratio Found
 -------    -------        ---------- -----
-sift     0.6793062 0.117165620984973  5815
-rg        0.864108 0.149039932828647  5840
-findstr  4.3610258 0.752182588630119  5811
-grep     5.7978287                 1  5815
-ag      13.7247422  2.36722105984263  5841
-
+sift     0.6709539 0.117226149286559  5815
+rg       0.7726723 0.134997946042774  5840
+findstr   4.019066 0.702193743725961  5811
+grep     5.7235856                 1  5815
+ag      10.8135604  1.88929827484366  5841
+```
