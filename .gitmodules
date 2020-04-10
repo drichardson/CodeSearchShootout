@@ -1,3 +1,9 @@
 [submodule "test_projects/rust"]
 	path = test_projects/rust
 	url = git@github.com:rust-lang/rust.git
+[submodule "test_projects/go"]
+	path = test_projects/go
+	url = git@github.com:golang/go.git
+[submodule "test_projects/llvm"]
+	path = test_projects/llvm
+	url = https://github.com/llvm-mirror/llvm
