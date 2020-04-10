@@ -1,40 +1,19 @@
+Set-StrictMode -Version 2.0
 $ErrorActionPreference="Stop"
-
-function Run-Grep() {
-    param([string] $Pattern,[string] $Directory)
-    grep -rnHF $Pattern $Directory
-}
-
-function Run-Rg() {
-    param([string] $Pattern,[string] $Directory)
-    rg --vimgrep -F $Pattern $Directory
-}
-
-
-function Run-Sift() {
-    param([string] $Pattern,[string] $Directory)
-    sift --no-conf -n $Pattern $Directory
-}
-
-
-function Run-Findstr() {
-    param([string] $Pattern,[string] $Directory)
-    findstr /P /S /N /L $Pattern $Directory 
-}
 
 function Item() {
     param(
     [string] $Command,
     $Measure,
-    $GrepMeasure,
-    $Lines
+    $Lines,
+    $GrepMeasure
     )
     
     return [PsCustomObject]@{
         "Command" = $Command;
         "Seconds" = $Measure.TotalSeconds;
         "Grep Ratio" = (($Measure).TotalSeconds)/(($GrepMeasure).TotalSeconds);
-        "Lines Found" = $Lines.Count;
+        "Found" = $Lines.Count;
         }
 }
 
@@ -43,24 +22,26 @@ function Run-Test() {
 
     Write-Information "Running Test..."
 
-    $gR   =Measure-Command { $linesG  =grep.exe -rnHF          						 $Pattern $Directory }
-    $rgR  =Measure-Command { $linesRg =rg.exe -F --vimgrep     						 $Pattern $Directory }
-    $siftR=Measure-Command { $linesS  =sift.exe --no-conf -n --err-skip-line-length  $Pattern $Directory }
-    $findR=Measure-Command { $linesFs =findstr.exe /P /S /N /L 						 $Pattern "$Directory\*" }
+    $rAg=Measure-Command { $lAg=ag      -F --vimgrep $Pattern $Directory }
+    $rFs=Measure-Command { $lFs=findstr /P /S /N /L  $Pattern "$Directory\*" }
+    $rG =Measure-Command { $lG =grep    -rnHF        $Pattern $Directory }
+    $rRg=Measure-Command { $lRg=rg      -F --vimgrep $Pattern $Directory }
+    $rS =Measure-Command { $lS =sift    --no-conf -n --err-skip-line-length  $Pattern $Directory }
 
     (
-    (Item "grep"    $gR    $gR $linesG),
-    (Item "sift"    $siftR $gR $linesRg),
-    (Item "rg"      $rgR   $gR $linesS),
-    (Item "findstr" $findR $gR $linesFs)
+    (Item "ag"      $rAg $lAg $rG),
+    (Item "findstr" $rFs $lFs $rG),
+    (Item "grep"    $rG  $lG  $rG),
+    (Item "rg"      $rRg $lRg $rG),
+    (Item "sift"    $rS  $lS  $rG)
     ) |
-	Sort-Object { $_.Seconds } |
-	Format-Table -AutoSize
+    Sort-Object { $_.Seconds } |
+    Format-Table -AutoSize
 }
-
 
 Write-Information "Getting testdata from submodules..."
 git submodule update --init
 
 Run-Test println .\test_projects
 
+# vim: et sw=4
